@@ -9,6 +9,13 @@ new Vue({
         inputValue:"",
         stored:[]
     },
+    computed:{
+      noChecked:function () {
+          return this.list.filter(function(item){
+            return !item.checked
+              }).length
+      }
+    },
     methods:{
         addTodo:function (e) {
             list.push(

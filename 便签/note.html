@@ -22,7 +22,13 @@
             v-on:keyup.13="addTodo($event)"
     />
     <ul class="task-count" v-show="list.length">
-        <li>个任务未完成</li>
+        <li>
+            <!--此处应该尽量避免使用这样大的逻辑表达式-->
+            <!--{{list.filter(function(item){-->
+                <!--return !item.checked-->
+            <!--}).length}}-->
+            {{noChecked}}
+            个任务未完成</li>
         <li class="action">
             <a class="active" href="#">所有任务</a>
             <a href="#">未完成的任务</a>
