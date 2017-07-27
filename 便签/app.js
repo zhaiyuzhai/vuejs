@@ -1,22 +1,71 @@
-var list=[
-    // {title:"吃饭打豆豆"},
-    // {title:"吃饭打豆豆"}
-];
-new Vue({
+// 存取localstorage的数据
+var store={
+    save:function (key,value) {
+        localStorage.setItem(key,"");
+        localStorage.setItem(key,JSON.stringify(value));
+    },
+    fetch:function (key) {
+        return JSON.parse(localStorage.getItem(key))||[];
+    }
+}
+var list=store.fetch("index");
+console.dir(typeof list);
+var vm=new Vue({
     el:".main",
     data:{
         list:list,
         inputValue:"",
-        stored:[]
+        stored:[],
+        visibility:"all",
+        first:true,
+        second:false,
+        third:false
+    },
+    watch:{
+        list:{
+            handler:function () {
+                // alert("watch");
+                store.save("index",this.list)
+            },
+            deep:true
+        }
     },
     computed:{
-      noChecked:function () {
+        noChecked:function () {
           return this.list.filter(function(item){
             return !item.checked
               }).length
-      }
+        },
+        filter:function () {
+            if(this.visibility=='all'){return this.list}
+            else if(this.visibility=="notChecked"){
+                return this.list.filter(function (item) {
+                    return !item.checked
+                })
+            }
+            else{
+                return this.list.filter(function (item) {
+                    return item.checked
+                })
+            }
+        }
     },
     methods:{
+        click1:function () {
+            this.first=true;
+            this.second=false;
+            this.third=false
+        },
+        click2:function () {
+            this.first=false;
+            this.second=true;
+            this.third=false
+        },
+        click3:function () {
+            this.first=false;
+            this.second=false;
+            this.third=true
+        },
         addTodo:function (e) {
             list.push(
                 {title:this.inputValue,
@@ -42,14 +91,23 @@ new Vue({
         cancel:function(index){
             // alert(1);
             this.list[index].title=this.stored[index];
-        }
+        },
+        // addClass:function (e) {
+        //     alert(1);
+        //     console.log(e);
+        // }
     },
     directives:{
         "focus":{
             update:function (el,bindings) {
-                // alert(1);
                 el.focus();
             }
         }
     }
-})
+});
+function watchhashchange() {
+    // alert(2);
+    var hash=window.location.hash.slice(1);
+    vm.visibility=hash;
+}
+window.addEventListener("hashchange",watchhashchange);

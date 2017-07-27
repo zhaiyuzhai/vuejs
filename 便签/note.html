@@ -30,9 +30,9 @@
             {{noChecked}}
             个任务未完成</li>
         <li class="action">
-            <a class="active" href="#">所有任务</a>
-            <a href="#">未完成的任务</a>
-            <a href="#">完成的任务</a>
+            <a :class="{active:first}" href="#all" @click="click1">所有任务</a>
+            <a href="#notChecked" :class="{active:second}" @click="click2">未完成的任务</a>
+            <a href="#isChecked" :class="{active:third}" @click="click3">完成的任务</a>
         </li>
     </ul>
     <h3 class="big-title">任务列表：</h3>
@@ -40,13 +40,13 @@
 
         <span class="no-task-tip" v-show="!list.length">还没有添加任何任务</span>
         <ul class="todo-list">
-            <li class="todo"  v-for="(item,$index) in list" :class="{completed:item.checked,editing:item.lieditable}">
+            <li class="todo"  v-for="(item,$index) in filter" :class="{completed:item.checked,editing:item.lieditable}">
                 <div class="view">
                     <input class="toggle" type="checkbox" v-model="item.checked"/>
                     <label @dblclick="edTodo($index)">{{ item.title }}</label>
                     <button class="destroy" @click="deleteTodo($index)"></button>
                 </div>
-                <input type="text" class="edit" v-model="item.title" v-focus="item.lieditable" @keyup.13="edTodoend($index)" @blur="edTodoend($index)" @keyup.esc="cancel($index)">
+                <input type="text" class="edit" v-model="item.title" v-focus @keyup.13="edTodoend($index)" @blur="edTodoend($index)" @keyup.esc="cancel($index)">
             </li>
         </ul>
     </div>
