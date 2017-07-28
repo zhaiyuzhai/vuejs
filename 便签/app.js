@@ -106,7 +106,6 @@ var vm=new Vue({
     }
 });
 function watchhashchange() {
-    // alert(2);
     var hash=window.location.hash.slice(1);
     vm.visibility=hash;
 }
