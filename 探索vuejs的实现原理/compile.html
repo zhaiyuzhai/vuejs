@@ -119,6 +119,7 @@
         function Dep() {
             this.subs=[];
         }
+        //Dep的原型里面有add方法，add方法将整个watcher对象添加了进来，才可以调用每个watcher的update()方法
         Dep.prototype={
             addsub:function(sub){
                 this.subs.push(sub)
