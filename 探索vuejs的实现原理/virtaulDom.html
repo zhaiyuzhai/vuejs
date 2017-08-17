@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>virtualDom</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" id="input1">
+    <sapn id="span1"></sapn>
+</div>
+<script>
+    function nodetoFragment(node) {
+        var flag=document.createDocumentFragment();
+        var child;
+        while(child=node.firstChild){
+            flag.appendChild(child);
+        }
+        return flag;
+    }
+    var dom=nodetoFragment(document.getElementById("app"));
+    console.log(dom);
+//    document.getElementById("app").appendChild(dom)
+</script>
+</body>
+</html>
